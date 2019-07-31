@@ -1,5 +1,7 @@
 package com.xyc.base;
 
+import java.awt.*;
+
 public abstract class BaseSpite {
     private int x;
     private  int y;
@@ -27,4 +29,8 @@ public abstract class BaseSpite {
     public void setY(int y) {
         this.y = y;
     }
+    public Rectangle getRectangle(){
+        return  null;
+    }
+
 }

@@ -5,7 +5,7 @@ import com.xyc.base.Drawable;
 import com.xyc.base.Moveable;
 import com.xyc.constant.FrameConstant;
 import com.xyc.util.ImageMap;
-import com.xyc.util.ImageUtil;
+
 
 import java.awt.*;
 
@@ -14,7 +14,8 @@ public class Background extends BaseSpite implements Moveable, Drawable {
     private Image bgImage;
 
     public Background() {
-        this(0, FrameConstant.FRAME_HEIGHT-ImageMap.get("bg01").getHeight(null), ImageMap.get("bg01"));
+        this(0, FrameConstant.FRAME_HEIGHT-ImageMap.get("bg01").getHeight(null),
+                ImageMap.get("bg01"));
 
     }
 
@@ -25,7 +26,10 @@ public class Background extends BaseSpite implements Moveable, Drawable {
 
     @Override
     public void move() {
+      if (getY()==0){
+          setY(ImageMap.get("bg01").getHeight(null));
 
+      }
         setY(getY() +FrameConstant.GAME_SPEED);
 
     }

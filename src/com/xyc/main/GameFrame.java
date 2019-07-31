@@ -16,6 +16,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GameFrame extends Frame {
     public static  int sore=0;
+    public static  boolean a;
     private Random random=new Random();
     //创建背景对象
     private Background background = new Background();

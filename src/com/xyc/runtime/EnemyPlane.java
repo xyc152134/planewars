@@ -9,6 +9,7 @@ import com.xyc.util.DataStore;
 import com.xyc.util.ImageMap;
 
 import java.awt.*;
+import java.util.Collection;
 import java.util.Random;
 
 public class EnemyPlane extends BaseSpite implements Moveable, Drawable {
@@ -52,6 +53,8 @@ public class EnemyPlane extends BaseSpite implements Moveable, Drawable {
         if (getY() > FrameConstant.FRAME_HEIGHT) {
             GameFrame gameFrame = DataStore.get("gameFrame");
             gameFrame.enemyPlaneList.remove(this);
+            gameFrame.a=true;
+           // gameFrame.enemtyBullets.remove(this);  敌机死亡后移除子弹
         }
 
     }

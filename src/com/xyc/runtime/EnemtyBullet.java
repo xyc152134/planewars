@@ -34,8 +34,8 @@ public class EnemtyBullet extends BaseSpite implements Drawable, Moveable {
 
     }
     public void borderTesting() {
-        if (getY() > FrameConstant.FRAME_HEIGHT) {
-            GameFrame gameFrame = DataStore.get("gameFrame");
+        GameFrame gameFrame = DataStore.get("gameFrame");
+        if (getY() > FrameConstant.FRAME_HEIGHT||gameFrame.a) {
             gameFrame.enemtyBullets.remove(this);
         }
     }

@@ -11,10 +11,33 @@ import com.xyc.util.ImageMap;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
+
 public class Plane extends BaseSpite implements Drawable, Moveable {
     private Image image;
-    private boolean up, right, down, left, fire;
+    private boolean up, right, down, left, fire,fire1;
     private int seed = FrameConstant.GAME_SPEED * 3;
+    private  int hp=10;
+    private  int type;
+
+    public int getSeed() {
+        return seed;
+    }
+
+    public void setSeed(int seed) {
+        this.seed = seed;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
 
     public Plane() {
         this((FrameConstant.FRAME_WIDEH - ImageMap.get("my01").getWidth(null)) / 2,
@@ -29,13 +52,16 @@ public class Plane extends BaseSpite implements Drawable, Moveable {
 
     @Override
     public void draw(Graphics g) {
-        g.drawImage(image, getX(), getY(), image.getWidth(null), image.getHeight(null), null);
         move();
-//      i++;   控制射速
-//      if(i>30){
-//          i=0;
-//          fire();
-//      }
+        g.drawImage(image, getX(), getY(), image.getWidth(null), image.getHeight(null), null);
+
+
+
+      i++;   //控制射速
+      if(i>10){
+          i=0;
+          fire();
+      }
 
     }
 
@@ -44,19 +70,27 @@ public class Plane extends BaseSpite implements Drawable, Moveable {
      * 开火方法
      */
     public void fire() {
-        if (fire) {
+        if (type==1) {
             GameFrame gameFrame = DataStore.get("gameFrame");
             gameFrame.bulletList.add(new Bullet(
                    getX() + image.getWidth(null) / 2 - ImageMap.get("myb01").getWidth(null) / 2,
                     getY() - ImageMap.get("myb01").getHeight(null),
-                    ImageMap.get("myb01")
+                    ImageMap.get("myb01"),1
 
             ));
         }
+        if (type==2) {
+            GameFrame gameFrame = DataStore.get("gameFrame");
+            gameFrame.bulletList.add(new Bullet(
+                    getX() + image.getWidth(null) / 2 - ImageMap.get("myb02").getWidth(null) / 2,
+                    getY() - ImageMap.get("myb02").getHeight(null),
+                    ImageMap.get("myb02"),2
 
+            ));
+        }
     }
 
-
+//移动
     @Override
     public void move() {
         if (up) {
@@ -105,7 +139,10 @@ public class Plane extends BaseSpite implements Drawable, Moveable {
             left = true;
         }
         if (e.getKeyCode() == KeyEvent.VK_J) {
-            fire = true;
+            type=1;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_K) {
+            type=2;
         }
     }
 
@@ -123,8 +160,11 @@ public class Plane extends BaseSpite implements Drawable, Moveable {
             left = false;
         }
         if (e.getKeyCode() == KeyEvent.VK_J) {
-            fire();
-            fire = false;
+//            fire();
+            type=0;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_K) {
+            type=0;
         }
     }
     @Override

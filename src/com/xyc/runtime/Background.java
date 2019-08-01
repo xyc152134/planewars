@@ -14,8 +14,8 @@ public class Background extends BaseSpite implements Moveable, Drawable {
     private Image bgImage;
 
     public Background() {
-        this(0, FrameConstant.FRAME_HEIGHT-ImageMap.get("bg01").getHeight(null),
-                ImageMap.get("bg01"));
+        this(0, FrameConstant.FRAME_HEIGHT-ImageMap.get("bg02").getHeight(null),
+                ImageMap.get("bg02"));
 
     }
 
@@ -27,7 +27,7 @@ public class Background extends BaseSpite implements Moveable, Drawable {
     @Override
     public void move() {
       if (getY()==0){
-          setY(ImageMap.get("bg01").getHeight(null));
+          setY(ImageMap.get("bg02").getHeight(null));
 
       }
         setY(getY() +FrameConstant.GAME_SPEED);

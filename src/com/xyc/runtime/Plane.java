@@ -18,6 +18,15 @@ public class Plane extends BaseSpite implements Drawable, Moveable {
     private int seed = FrameConstant.GAME_SPEED * 3;
     private  int hp=10;
     private  int type;
+    public  int count;
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
 
     public int getSeed() {
         return seed;
@@ -57,11 +66,11 @@ public class Plane extends BaseSpite implements Drawable, Moveable {
 
 
 
-      i++;   //控制射速
-      if(i>10){
-          i=0;
-          fire();
-      }
+//      i++;   //控制射速
+//      if(i>10){
+//          i=0;
+//          fire();
+//      }
 
     }
 
@@ -80,13 +89,14 @@ public class Plane extends BaseSpite implements Drawable, Moveable {
             ));
         }
         if (type==2) {
+            if(count>0){
             GameFrame gameFrame = DataStore.get("gameFrame");
             gameFrame.bulletList.add(new Bullet(
                     getX() + image.getWidth(null) / 2 - ImageMap.get("myb02").getWidth(null) / 2,
                     getY() - ImageMap.get("myb02").getHeight(null),
                     ImageMap.get("myb02"),2
 
-            ));
+            ));}
         }
     }
 
@@ -142,6 +152,8 @@ public class Plane extends BaseSpite implements Drawable, Moveable {
             type=1;
         }
         if (e.getKeyCode() == KeyEvent.VK_K) {
+            if(count>0){
+            count-=1;}
             type=2;
         }
     }
@@ -160,10 +172,11 @@ public class Plane extends BaseSpite implements Drawable, Moveable {
             left = false;
         }
         if (e.getKeyCode() == KeyEvent.VK_J) {
-//            fire();
+            fire();
             type=0;
         }
         if (e.getKeyCode() == KeyEvent.VK_K) {
+            fire();
             type=0;
         }
     }

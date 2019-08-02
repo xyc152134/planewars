@@ -110,13 +110,12 @@ public class EnemyPlane extends BaseSpite implements Moveable, Drawable {
         GameFrame gameFrame = DataStore.get("gameFrame");
 
         if (type == 1) {
-            if (getY() >= FrameConstant.FRAME_HEIGHT - image.getWidth(null) || getX() >= FrameConstant.FRAME_WIDEH - image.getWidth(null)) {
+            if (getY() >= FrameConstant.FRAME_HEIGHT|| getX() >= FrameConstant.FRAME_WIDEH ){
                right=true;
             }
             if (getY() < 0 || getX() < 0) {
                 right=false;
             }
-
         }
         if(type==2){
             if (getY() > FrameConstant.FRAME_HEIGHT || getX() > FrameConstant.FRAME_WIDEH) {
@@ -126,8 +125,7 @@ public class EnemyPlane extends BaseSpite implements Moveable, Drawable {
         if(type==3){
         if (getY() > FrameConstant.FRAME_HEIGHT || getX() > FrameConstant.FRAME_WIDEH) {
             gameFrame.enemyPlaneList.remove(this);
-            //gameFrame.a = true;
-            // gameFrame.enemtyBullets.remove(this);  敌机死亡后移除子弹
+
         }
 
     }}
@@ -162,6 +160,9 @@ public class EnemyPlane extends BaseSpite implements Moveable, Drawable {
         if (plane.getRectangle().intersects(this.getRectangle())) {
             gameFrame.enemyPlaneList.remove(this);
             gameFrame.hp--;
+            gameFrame.x1=this.getX();
+            gameFrame.y1=this.getY();
+            gameFrame.prop=true;
 
         }
     }

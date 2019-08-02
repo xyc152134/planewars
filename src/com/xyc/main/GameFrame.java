@@ -39,7 +39,13 @@ public class GameFrame extends Frame {
     private Boss boss = new Boss();
     //创建道具
     public final List<Prop> propList = new CopyOnWriteArrayList<>();
+
     public boolean gameOver = false;
+    public boolean light = false;
+    private GameOver gameOver1 = new GameOver();
+    public int x1;
+    public int y1;
+    public boolean prop;
 
     @Override
     public void paint(Graphics g) {
@@ -51,6 +57,7 @@ public class GameFrame extends Frame {
             for (Prop prop : propList) {
                 prop.draw(g);
             }
+
             for (myPlaneHP myPlaneHP : myPlaneHPList) {
                 myPlaneHP.draw(g);
             }
@@ -66,32 +73,38 @@ public class GameFrame extends Frame {
 
             }
             //我方子弹碰敌机
-            for (Bullet bullet : bulletList) {
-                bullet.collisionTesting(enemyPlaneList);
+            if (!light) {
+                for (Bullet bullet : bulletList) {
+                    bullet.collisionTesting(enemyPlaneList);
+
+                }
+                for (Bullet bullet : bulletList) {
+                    bullet.collisionTesting(boss);
+                }
+                //每个敌机子弹碰我方
+
+                for (EnemtyBullet enemtyBullet : enemtyBullets) {
+                    enemtyBullet.collisionTesting(plane);
+                }
+                for (EnemyPlane enemyPlane : enemyPlaneList) {
+                    enemyPlane.collisionTesting(plane);
+
+                }
 
             }
-            for (Bullet bullet : bulletList) {
-                bullet.collisionTesting(boss);
-            }
-            //每个敌机子弹碰我方
-            for (EnemtyBullet enemtyBullet : enemtyBullets) {
-                enemtyBullet.collisionTesting(plane);
-            }
-            for (EnemyPlane enemyPlane : enemyPlaneList) {
-                enemyPlane.collisionTesting(plane);
 
-            }
             for (Prop prop : propList) {
                 prop.collisionTesting(plane);
             }
+
             g.setFont(new Font("楷体", 1, 36));
             g.setColor(Color.green);
             g.drawString("生命---" + hp, 50, 80);
             g.drawString("分数---" + sore, 50, 120);
-            g.drawString("Boss---" + propList.size(), 50, 620);
+            g.drawString("分数---" + plane.count, 50, 170);
 
-            if (sore>=50) {
-            boss.draw(g);
+            if (sore >= 20 || enemyPlaneList.size() < 10) {
+                boss.draw(g);
             }
             if (enemyPlaneList.size() == 0) {
                 g.setFont(new Font("楷体", 1, 56));
@@ -104,16 +117,20 @@ public class GameFrame extends Frame {
                 g.setFont(new Font("楷体", 1, 56));
                 g.setColor(Color.red);
                 g.drawString("很遗憾你失败了", 180, 380);
-                gameOver = true;
+                gameOver1.draw(g);
+                light = true;
+
             }
             if (killboss) {
                 g.setFont(new Font("楷体", 1, 56));
                 g.setColor(Color.green);
                 g.drawString("恭喜通关", 300, 380);
-                gameOver = true;
-            }
-            myPlaneHpadd();
+                gameOver1.draw(g);
+                light = true;
 
+            }
+            addProp1();
+            myPlaneHpadd();
 
         }
     }
@@ -168,6 +185,7 @@ public class GameFrame extends Frame {
         //游戏初始时添加一些敌机
         enemtyPlaneadd();
         addProp();
+        addProp1();
         setVisible(true);
     }
 
@@ -187,7 +205,7 @@ public class GameFrame extends Frame {
     public void enemtyPlaneadd() {
         while (true) {
             enemyPlaneList.add(new EnemyPlane(random.nextInt(700), -random.nextInt(4000), random.nextInt(4)));
-            if (enemyPlaneList.size() > 50) {
+            if (enemyPlaneList.size() > 60) {
                 break;
             }
         }
@@ -203,11 +221,18 @@ public class GameFrame extends Frame {
     public void addProp() {
         while (true) {
             propList.add(new Prop(random.nextInt(750), -random.nextInt(4000), (random.nextInt(5) % 2 + 1)));
-            if(propList.size()>20)break;
+            if (propList.size() > 10) break;
         }
     }
 
+    public void addProp1() {
+        if (prop) {
+            if(random.nextInt(100)>50){
+            propList.add(new Prop(x1 - 10, y1 - 10, (random.nextInt(5)%2+1)));}
+            prop = false;
+        }
 
+    }
 
 
 }

@@ -59,27 +59,30 @@ public class Prop extends BaseSpite implements Moveable, Drawable {
 
 
     }
+
     public void borderTesting() {
         GameFrame gameFrame = DataStore.get("gameFrame");
-            if (getY() >= FrameConstant.FRAME_HEIGHT) {
-                gameFrame.propList.remove(this);
+        if (getY() >= FrameConstant.FRAME_HEIGHT) {
+            gameFrame.propList.remove(this);
         }
     }
+
     public Rectangle getRectangle() {
         return new Rectangle(getX(), getY(), image.getWidth(null), image.getHeight(null));
     }
+
     public void collisionTesting(Plane plane) {
         GameFrame gameFrame = DataStore.get("gameFrame");
         if (plane.getRectangle().intersects(this.getRectangle())) {
             gameFrame.propList.remove(this);
-           if(type==1){
-               gameFrame.hp++;
-               System.out.println("111");
-           }
-           if(type==2){
-               System.out.println("222");
-               plane.setSeed(plane.getSeed()+FrameConstant.GAME_SPEED*3);
-           }
+            if (type == 1) {
+                if (gameFrame.hp < 14) {
+                    gameFrame.hp++;
+                }
+            }
+            if (type == 2) {
+                    plane.setCount(plane.getCount() + 3*FrameConstant.GAME_SPEED );
+            }
 
         }
     }

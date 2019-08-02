@@ -25,59 +25,46 @@ public class Bullet extends BaseSpite implements Drawable, Moveable {
         this.image = image;
         this.type = type;
     }
-
     @Override
     public void draw(Graphics g) {
         g.drawImage(image, getX(), getY(), image.getWidth(null), image.getHeight(null), null);
         move();
         borderTesting();
     }
-
     @Override
     public void move() {
         setY(getY() - speed);
-
     }
-
     public void borderTesting() {
         if (getY() < 30 - image.getHeight(null)) {
             GameFrame gameFrame = DataStore.get("gameFrame");
             gameFrame.bulletList.remove(this);
         }
-
-
     }
-
     public Rectangle getRectangle() {
         return new Rectangle(getX(), getY(), image.getWidth(null), image.getHeight(null));
     }
-
     public void collisionTesting(List<EnemyPlane> enemyPlanesList) {
         GameFrame gameFrame = DataStore.get("gameFrame");
         for (EnemyPlane enemyPlane : enemyPlanesList) {
             if (enemyPlane.getRectangle().intersects(this.getRectangle())) {
                 if (type == 1) {
                     enemyPlane.setHp(enemyPlane.getHp() - 1);
-
                 } else if (type == 2) {
-                    enemyPlane.setHp(enemyPlane.getHp() - 2);
-
+                    enemyPlane.setHp(enemyPlane.getHp() - 3);
                 }
-
-
                 if (enemyPlane.getHp() <= 0) {
                     if (enemyPlane.getType() == 1) gameFrame.sore += 4;
                     if (enemyPlane.getType() == 2) gameFrame.sore += 2;
                     if (enemyPlane.getType() == 3) gameFrame.sore++;
                     enemyPlanesList.remove(enemyPlane);
+                    gameFrame.x1=this.getX();
+                    gameFrame.y1=this.getY();
+                    gameFrame.prop=true;
                 }
                 gameFrame.bulletList.remove(this);
-
-
             }
-
         }
-
     }
 
     public void collisionTesting(Boss boss) {
@@ -91,7 +78,6 @@ public class Bullet extends BaseSpite implements Drawable, Moveable {
             gameFrame.bulletList.remove(this);
             if(gameFrame.bosshp<0){
                 gameFrame.killboss=true;
-
             }
         }
     }
